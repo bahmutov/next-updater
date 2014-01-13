@@ -20,5 +20,8 @@
     "updater"
   ],
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "optimist": "~0.6.0"
+  }
 }
