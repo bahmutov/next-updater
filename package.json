@@ -1,6 +1,6 @@
 {
   "name": "next-updater",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Dependable and safe automatic dependency updater for Nodejs packages",
   "main": "index.js",
   "scripts": {
