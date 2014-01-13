@@ -32,7 +32,6 @@ module.exports = function(grunt) {
   plugins.forEach(grunt.loadNpmTasks);
 
   grunt.registerTask('pre-check', ['deps-ok', 'jsonlint',
-    'jshint',
-    'nice-package', 'complexity']);
+    'jshint', 'nice-package', 'complexity']);
   grunt.registerTask('default', 'pre-check');
 };
