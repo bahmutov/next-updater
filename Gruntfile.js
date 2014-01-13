@@ -25,6 +25,13 @@ module.exports = function(grunt) {
       all: {
         options: {}
       }
+    },
+    readme: {
+      options: {
+        readme: './docs/README.tpl.md',
+        docs: '.',
+        templates: './docs'
+      }
     }
   });
 
