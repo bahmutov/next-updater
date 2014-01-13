@@ -28,7 +28,7 @@ module.exports = function(grunt) {
     },
     readme: {
       options: {
-        readme: './docs/README.tpl.md',
+        readme: './docs/README.tmpl.md',
         docs: '.',
         templates: './docs'
       }
@@ -40,5 +40,5 @@ module.exports = function(grunt) {
 
   grunt.registerTask('pre-check', ['deps-ok', 'jsonlint',
     'jshint', 'nice-package', 'complexity']);
-  grunt.registerTask('default', 'pre-check');
+  grunt.registerTask('default', 'pre-check', 'readme');
 };
