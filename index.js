@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+var check = require('check-types');
 var pkg = require('./package.json');
 var info = pkg.name + ' - ' + pkg.description + '\n' +
   '  version: ' + pkg.version + '\n' +
@@ -13,6 +14,12 @@ var program = optimist
   description: 'show version and exit',
   default: false
 })
+.option('repo', {
+  string: true,
+  alias: 'r',
+  description: '<github username/repo>',
+  default: 'bahmutov/test-next-updater'
+})
 .usage(info)
 .argv;
 
@@ -21,7 +28,8 @@ if (program.version) {
   process.exit(0);
 }
 
-if (program.help || program.h) {
+if (program.help || program.h ||
+  !check.unemptyString(program.repo)) {
   optimist.showHelp();
   process.exit(0);
 }

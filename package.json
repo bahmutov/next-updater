@@ -22,7 +22,8 @@
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "optimist": "~0.6.0"
+    "optimist": "~0.6.0",
+    "check-types": "~1.1.1"
   },
   "devDependencies": {
     "grunt-bump": "0.0.13",
