@@ -33,3 +33,11 @@ if (program.help || program.h ||
   optimist.showHelp();
   process.exit(0);
 }
+
+var nextUpdater = require('./src/next-updater');
+nextUpdater.testModuleUpdate(program.repo)
+.done(function () {
+  console.log('finished testing', program.repo);
+}, function () {
+  console.error('could not update repo', program.repo);
+});
