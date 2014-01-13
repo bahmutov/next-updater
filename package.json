@@ -4,7 +4,7 @@
   "description": "Dependable and safe automatic dependency updater for Nodejs packages",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "grunt"
   },
   "repository": {
     "type": "git",
@@ -23,5 +23,17 @@
   "license": "MIT",
   "dependencies": {
     "optimist": "~0.6.0"
+  },
+  "devDependencies": {
+    "grunt-bump": "0.0.13",
+    "grunt-nice-package": "~0.1.5",
+    "jshint-stylish": "~0.1.5",
+    "matchdep": "~0.3.0",
+    "grunt-deps-ok": "~0.1.7",
+    "grunt": "~0.4.2",
+    "grunt-jsonlint": "~1.0.4",
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt-complexity": "~0.1.4",
+    "time-grunt": "~0.2.7"
   }
 }

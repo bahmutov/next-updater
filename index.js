@@ -7,14 +7,14 @@ var info = pkg.name + ' - ' + pkg.description + '\n' +
 
 var optimist = require('optimist');
 var program = optimist
-  .option('version', {
-    boolean: true,
-    alias: 'v',
-    description: 'show version and exit',
-    default: false
-  })
-  .usage(info)
-  .argv;
+.option('version', {
+  boolean: true,
+  alias: 'v',
+  description: 'show version and exit',
+  default: false
+})
+.usage(info)
+.argv;
 
 if (program.version) {
   console.log(info);
