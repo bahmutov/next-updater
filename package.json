@@ -1,0 +1,24 @@
+{
+  "name": "next-updater",
+  "version": "0.0.0",
+  "description": "Dependable and safe automatic dependency updater for Nodejs packages",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:bahmutov/next-updater.git"
+  },
+  "keywords": [
+    "update",
+    "service",
+    "automatic",
+    "dependency",
+    "npm",
+    "package",
+    "updater"
+  ],
+  "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
+  "license": "MIT"
+}
