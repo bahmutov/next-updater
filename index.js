@@ -38,6 +38,9 @@ var nextUpdater = require('./src/next-updater');
 nextUpdater.testModuleUpdate(program.repo)
 .done(function () {
   console.log('finished testing', program.repo);
-}, function () {
+}, function (err) {
   console.error('could not update repo', program.repo);
+  console.error('-------------------------');
+  console.error(err.stack);
+  console.error('-------------------------');
 });

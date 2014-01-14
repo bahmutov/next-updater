@@ -10,8 +10,8 @@ gt.async('showing help', function () {
 
 gt.async('testing --repo', function () {
   gt.exec('node', [indexPath, '--repo', repo], 0);
-}, 10000);
+}, 30000);
 
 gt.async('testing -r', function () {
   gt.exec('node', [indexPath, '-r', repo], 0);
-}, 10000);
+}, 30000);

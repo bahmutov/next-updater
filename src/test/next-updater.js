@@ -21,4 +21,4 @@ gt.async('valid repo name', 0, function () {
   .then(function () {
     gt.start();
   });
-});
+}, 30000);

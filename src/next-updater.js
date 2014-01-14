@@ -22,6 +22,30 @@ function removeFolder(folder) {
   }
 }
 
+function installDependencies(folder) {
+  verify.unemptyString(folder, 'expected folder name');
+  console.log('installing dependencies', folder);
+  var cwd = process.cwd();
+  process.chdir(folder);
+  console.log('changed current folder to', process.cwd());
+  return exec('npm install')
+    .then(function () {
+      console.log('installed dependencies in', folder);
+      process.chdir(cwd);
+    });
+}
+
+function testModule(folder) {
+  verify.unemptyString(folder, 'expected folder name');
+  console.log('testing module', folder);
+  var cwd = process.cwd();
+  process.chdir(folder);
+  return exec('npm test')
+    .finally(function () {
+      process.chdir(cwd);
+    });
+}
+
 function testModuleUpdate(repo) {
   verifyRepo(repo);
 
@@ -35,6 +59,19 @@ function testModuleUpdate(repo) {
     .then(function () {
       console.log('cloned', repo, 'to', tmpFolder);
       return tmpFolder;
+    })
+    .then(installDependencies)
+    .then(testModule.bind(null, tmpFolder))
+    .then(function () {
+      console.log('tested npm module in', tmpFolder)
+    }, function (err) {
+      console.log('FAILED test for npm module in', tmpFolder);
+      if (err) {
+        console.log('==================')
+        console.log(err);
+        console.log('==================')
+      }
+      throw new Error(err);
     });
 }
 
