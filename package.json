@@ -4,7 +4,9 @@
   "description": "Dependable and safe automatic dependency updater for Nodejs packages",
   "main": "index.js",
   "scripts": {
-    "test": "grunt && node node_modules/gt src/**/test/*.js --output"
+    "test": "grunt && npm run unit && npm run e2e",
+    "unit": "node node_modules/gt src/**/test/*.js --output",
+    "e2e": "node node_modules/gt test/*.js --output"
   },
   "repository": {
     "type": "git",
