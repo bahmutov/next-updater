@@ -27,7 +27,7 @@
     "check-types": "1.4.0",
     "ggit": "0.1.1",
     "optimist": "0.6.1",
-    "q": "1.1.2"
+    "q": "2.0.2"
   },
   "devDependencies": {
     "grunt": "0.4.5",
