@@ -63,13 +63,13 @@ function testModuleUpdate(repo) {
     .then(installDependencies)
     .then(testModule.bind(null, tmpFolder))
     .then(function () {
-      console.log('tested npm module in', tmpFolder)
+      console.log('tested npm module in', tmpFolder);
     }, function (err) {
       console.log('FAILED test for npm module in', tmpFolder);
       if (err) {
-        console.log('==================')
+        console.log('==================');
         console.log(err);
-        console.log('==================')
+        console.log('==================');
       }
       throw new Error(err);
     });

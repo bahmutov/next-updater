@@ -1,3 +1,4 @@
+/* global gt */
 gt.module('next-updater');
 
 var nextUpdater = require('../next-updater');

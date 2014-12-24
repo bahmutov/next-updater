@@ -2,22 +2,40 @@
 module.exports = function(grunt) {
   require('time-grunt')(grunt);
 
+  var sourceFiles = ['index.js', 'src/**/*.js'];
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+
     jshint: {
+      all: sourceFiles,
       options: {
         jshintrc: '.jshintrc',
-        reporter: require('jshint-stylish')
-      },
-      default: {
-        src: [ "index.js", "src/*.js" ]
+        reporter: require('jshint-summary')
       }
     },
+
+    eslint: {
+      target: sourceFiles,
+      options: {
+        config: 'eslint.json',
+        rulesdir: ['./node_modules/eslint-rules']
+      }
+    },
+
+    jscs: {
+      src: sourceFiles,
+      options: {
+          config: 'jscs.json'
+      }
+    },
+
     jsonlint: {
       all: {
-        src: ['*.json']
+        src: ['package.json', 'complexity.json']
       }
     },
+
     complexity: {
       default: grunt.file.readJSON('complexity.json')
     },
@@ -53,8 +71,8 @@ module.exports = function(grunt) {
   var plugins = require('matchdep').filterDev('grunt-*');
   plugins.forEach(grunt.loadNpmTasks);
 
-  grunt.registerTask('pre-check', ['deps-ok', 'jsonlint',
-    'jshint', 'nice-package', 'complexity']);
+  grunt.registerTask('lint', ['jsonlint', 'jshint', 'eslint', 'jscs']);
+  grunt.registerTask('pre-check', ['deps-ok', 'lint', 'nice-package', 'complexity']);
   grunt.registerTask('default', 'pre-check', 'readme');
   grunt.registerTask('release', ['bump-only:patch', 'readme', 'bump-commit']);
 };
