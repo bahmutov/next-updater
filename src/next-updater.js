@@ -1,5 +1,5 @@
 var q = require('q');
-q.longStackSupport  = true;
+q.longStackSupport = true;
 var verify = require('check-types').verify;
 var cloneRepo = require('ggit').cloneRepo;
 var exec = require('ggit').exec;

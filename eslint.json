@@ -2,8 +2,8 @@
   // this is JSON file, but ESLint allows C-style comments
 
   "env": {
-    "browser": true,
-    "node": false
+    "browser": false,
+    "node": true
   },
 
   // 0 - turn rule off

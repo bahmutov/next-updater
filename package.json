@@ -1,28 +1,12 @@
 {
   "name": "next-updater",
-  "version": "0.0.1",
   "description": "Dependable and safe automatic dependency updater for Nodejs packages",
-  "main": "index.js",
-  "scripts": {
-    "test": "grunt && npm run unit && npm run e2e",
-    "unit": "node node_modules/gt src/**/test/*.js --output",
-    "e2e": "node node_modules/gt test/*.js --output"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:bahmutov/next-updater.git"
-  },
-  "keywords": [
-    "update",
-    "service",
-    "automatic",
-    "dependency",
-    "npm",
-    "package",
-    "updater"
-  ],
+  "version": "0.0.2",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
-  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bahmutov/next-updater/issues"
+  },
+  "contributors": [],
   "dependencies": {
     "check-types": "1.4.0",
     "ggit": "0.1.1",
@@ -38,15 +22,39 @@
     "grunt-deps-ok": "0.5.1",
     "grunt-eslint": "2.1.0",
     "grunt-jscs": "1.1.0",
-    "grunt-jsonlint": "~1.0.4",
+    "grunt-jsonlint": "1.0.4",
     "grunt-nice-package": "0.9.2",
-    "grunt-readme": "~0.4.5",
+    "grunt-readme": "0.4.5",
     "gt": "0.8.44",
     "jshint-stylish": "1.0.0",
     "jshint-summary": "0.4.0",
-    "matchdep": "~0.3.0",
+    "matchdep": "0.3.0",
     "pre-git": "0.1.1",
     "time-grunt": "1.0.0"
   },
-  "pre-commit": "grunt"
+  "engines": {
+    "node": "> 0.10.*"
+  },
+  "homepage": "https://github.com/bahmutov/next-updater",
+  "keywords": [
+    "update",
+    "service",
+    "automatic",
+    "dependency",
+    "npm",
+    "package",
+    "updater"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "pre-commit": "grunt",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:bahmutov/next-updater.git"
+  },
+  "scripts": {
+    "test": "grunt && npm run unit && npm run e2e",
+    "unit": "node node_modules/gt src/**/test/*.js --output",
+    "e2e": "node node_modules/gt test/*.js --output"
+  }
 }
