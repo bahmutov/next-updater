@@ -1,4 +1,5 @@
 /* global gt */
+require('lazy-ass');
 gt.module('next-updater');
 
 var nextUpdater = require('../next-updater');

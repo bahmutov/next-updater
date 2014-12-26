@@ -8,10 +8,14 @@
   },
   "contributors": [],
   "dependencies": {
+    "chdir-promise": "0.1.0",
+    "check-more-types": "1.1.0",
     "check-types": "1.4.0",
     "ggit": "0.1.1",
+    "lazy-ass": "0.5.3",
     "optimist": "0.6.1",
-    "q": "2.0.2"
+    "q": "2.0.2",
+    "rimraf": "2.2.8"
   },
   "devDependencies": {
     "eslint-rules": "0.2.0",

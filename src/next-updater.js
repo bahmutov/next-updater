@@ -1,6 +1,9 @@
+require('lazy-ass');
+
 var q = require('q');
 q.longStackSupport = true;
-var verify = require('check-types').verify;
+var check = require('check-more-types');
+var verify = check.verify;
 var cloneRepo = require('ggit').cloneRepo;
 var exec = require('ggit').exec;
 var path = require('path');
@@ -46,11 +49,20 @@ function testModule(folder) {
     });
 }
 
+// returns tmp folder for given repo
+// repoName: smith/foo for example
+function folderForRepo(repoName) {
+  la(check.unemptyString(repoName), 'missing repo name', repoName);
+  var tmpFolder = path.join(process.cwd(), 'tmp');
+  return tmpFolder;
+}
+
 function testModuleUpdate(repo) {
   verifyRepo(repo);
 
   var repoUrl = 'https://github.com/' + repo + '.git';
-  var tmpFolder = path.join(process.cwd(), 'tmp');
+  var tmpFolder = folderForRepo(repo);
+
   return q(removeFolder(tmpFolder))
     .then(cloneRepo.bind(null, {
       url: repoUrl,
