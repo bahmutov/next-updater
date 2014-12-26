@@ -10,6 +10,7 @@ var path = require('path');
 var fs = require('fs');
 var tmpdir = require('os').tmpdir;
 var pkg = require('../package.json');
+var chdir = require('chdir-promise');
 
 function verifyRepo(repo) {
   verify.unemptyString(repo, 'expected github repo string');
@@ -30,25 +31,25 @@ function removeFolder(folder) {
 function installDependencies(folder) {
   verify.unemptyString(folder, 'expected folder name');
   console.log('installing dependencies', folder);
-  var cwd = process.cwd();
-  process.chdir(folder);
-  console.log('changed current folder to', process.cwd());
-  return exec('npm install')
+
+  var npmInstall = exec.bind(null, 'npm install');
+
+  return chdir.to(folder)
+    .then(npmInstall)
     .then(function () {
       console.log('installed dependencies in', folder);
-      process.chdir(cwd);
-    });
+    })
+    .finally(chdir.back);
 }
 
 function testModule(folder) {
   verify.unemptyString(folder, 'expected folder name');
   console.log('testing module', folder);
-  var cwd = process.cwd();
-  process.chdir(folder);
-  return exec('npm test')
-    .finally(function () {
-      process.chdir(cwd);
-    });
+
+  var npmTest = exec.bind(null, 'npm test');
+  return chdir.to(folder)
+    .then(npmTest)
+    .finally(chdir.back);
 }
 
 // returns tmp folder for given repo
@@ -66,23 +67,33 @@ function folderForRepo(repoName) {
   return tmp;
 }
 
+function repoNameToUrl(repo) {
+  return 'https://github.com/' + repo + '.git';
+}
+
 function testModuleUpdate(repo) {
   verifyRepo(repo);
 
-  var repoUrl = 'https://github.com/' + repo + '.git';
+  var repoUrl = repoNameToUrl(repo);
+  la(check.webUrl(repoUrl), 'could not convert', repo, 'to git url', repoUrl);
+
   var tmpFolder = folderForRepo(repo);
+  la(check.unemptyString(tmpFolder), 'missing tmp folder for repo', repo);
+
+  var clone = cloneRepo.bind(null, {
+    url: repoUrl,
+    folder: tmpFolder
+  });
+  var install = installDependencies.bind(null, tmpFolder);
+  var test = testModule.bind(null, tmpFolder);
 
   return q(removeFolder(tmpFolder))
-    .then(cloneRepo.bind(null, {
-      url: repoUrl,
-      folder: tmpFolder
-    }))
+    .then(clone)
     .then(function () {
       console.log('cloned', repo, 'to', tmpFolder);
-      return tmpFolder;
     })
-    .then(installDependencies)
-    .then(testModule.bind(null, tmpFolder))
+    .then(install)
+    .then(test)
     .then(function () {
       console.log('tested npm module in', tmpFolder);
     }, function (err) {
