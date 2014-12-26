@@ -8,6 +8,8 @@ var cloneRepo = require('ggit').cloneRepo;
 var exec = require('ggit').exec;
 var path = require('path');
 var fs = require('fs');
+var tmpdir = require('os').tmpdir;
+var pkg = require('../package.json');
 
 function verifyRepo(repo) {
   verify.unemptyString(repo, 'expected github repo string');
@@ -53,8 +55,15 @@ function testModule(folder) {
 // repoName: smith/foo for example
 function folderForRepo(repoName) {
   la(check.unemptyString(repoName), 'missing repo name', repoName);
-  var tmpFolder = path.join(process.cwd(), 'tmp');
-  return tmpFolder;
+
+  var tmp = path.join(tmpdir(), pkg.name, repoName);
+  if (!fs.existsSync(tmp)) {
+    require('mkdirp').sync(tmp);
+    console.log('Created folder to clone', repoName, 'to');
+  }
+  console.log(repoName);
+
+  return tmp;
 }
 
 function testModuleUpdate(repo) {
