@@ -1,7 +1,7 @@
 {
   "name": "next-updater",
   "description": "Dependable and safe automatic dependency updater for Nodejs packages",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "bugs": {
     "url": "https://github.com/bahmutov/next-updater/issues"
@@ -11,7 +11,7 @@
     "chdir-promise": "0.2.0",
     "check-more-types": "1.1.1",
     "check-types": "1.4.0",
-    "ggit": "0.5.1",
+    "ggit": "0.6.0",
     "lazy-ass": "0.5.3",
     "mkdirp": "0.5.0",
     "next-update": "0.5.2",

@@ -160,8 +160,14 @@ function testModuleUpdate(repo) {
       if (hasChanges) {
         console.log('committing changes');
         var commit = ggit.commit.bind(null, pkg.name + ' has upgraded dependencies');
+        var push = ggit.push.bind(null, true);
+
         return chdir.to(localRepoFolder)
           .then(commit)
+          .then(function () {
+            console.log('pushing changes to remote origin');
+          })
+          .then(push)
           .then(chdir.from);
       }
     });
