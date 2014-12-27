@@ -1,0 +1,10 @@
+// repos to be auto updated and pushed back to github
+// using https://github.com/bahmutov/next-updater
+{
+  // single list of repos to test
+  // each repo <username>/<repo name>
+  "repos": [
+    "bahmutov/quote",
+    "bahmutov/todo-format"
+  ]
+}
