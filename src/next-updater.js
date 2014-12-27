@@ -135,10 +135,12 @@ function testModuleUpdate(repo) {
   verifyRepo(repo);
 
   var testRepo = testUpdates.bind(null, repo);
+  var localRepoFolder;
 
   return cloneInstallAndTest(repo)
     .then(function (tmpFolder) {
       console.log('checking available updates in', tmpFolder);
+      localRepoFolder = tmpFolder;
       return tmpFolder;
     })
     .then(testRepo)
@@ -150,7 +152,10 @@ function testModuleUpdate(repo) {
       la(check.bool(hasChanges), 'expected has changed boolean', hasChanges);
       if (hasChanges) {
         console.log('committing changes');
-        return ggit.commit(pkg.name + ' has upgraded dependencies');
+        var commit = ggit.commit.bind(null, pkg.name + ' has upgraded dependencies');
+        return chdir.to(localRepoFolder)
+          .then(commit)
+          .then(chdir.from);
       }
     });
 }

@@ -1,4 +1,4 @@
-# next-updater v0.0.2
+# next-updater v0.0.3
 
 > Dependable and safe automatic dependency updater for Nodejs packages
 
