@@ -3,6 +3,9 @@
   "description": "Dependable and safe automatic dependency updater for Nodejs packages",
   "version": "0.1.0",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
+  "bin": {
+    "next-updater": "./index.js"
+  },
   "bugs": {
     "url": "https://github.com/bahmutov/next-updater/issues"
   },
@@ -56,6 +59,7 @@
   "license": "MIT",
   "main": "index.js",
   "pre-commit": "grunt",
+  "preferGlobal": true,
   "repository": {
     "type": "git",
     "url": "git@github.com:bahmutov/next-updater.git"
