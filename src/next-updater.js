@@ -2,7 +2,14 @@ require('lazy-ass');
 
 var q = require('q');
 q.longStackSupport = true;
+
 var check = require('check-more-types');
+check.mixin(function (url) {
+  return check.unemptyString(url) &&
+    /^git@/.test(url);
+}, 'git');
+
+
 var verify = check.verify;
 var ggit = require('ggit');
 var cloneRepo = ggit.cloneRepo;
@@ -68,13 +75,13 @@ function folderForRepo(repoName) {
 }
 
 function repoNameToUrl(repo) {
-  return 'https://github.com/' + repo + '.git';
+  return 'git@github.com:' + repo + '.git';
 }
 
 function cloneInstallAndTest(repo) {
 
   var repoUrl = repoNameToUrl(repo);
-  la(check.webUrl(repoUrl), 'could not convert', repo, 'to git url', repoUrl);
+  la(check.git(repoUrl), 'could not convert', repo, 'to git url', repoUrl);
 
   var tmpFolder = folderForRepo(repo);
   la(check.unemptyString(tmpFolder), 'missing tmp folder for repo', repo);
