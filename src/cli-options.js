@@ -22,7 +22,13 @@ var program = optimist
     string: true,
     alias: 'r',
     description: '<github username/repo>',
-    default: 'bahmutov/test-next-updater'
+    default: null
+  })
+  .option('config', {
+    string: true,
+    alias: 'c',
+    description: 'JSON config filename',
+    default: 'next-updater.json'
   })
   .usage(info)
   .argv;

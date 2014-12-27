@@ -8,13 +8,11 @@ require('./src/check-updates');
 var options = require('./src/cli-options');
 la(check.object(options), 'missing CLI options', options);
 
-var nextUpdater = require('./src/next-updater');
-nextUpdater.testModuleUpdate(options.repo)
-  .done(function () {
-    console.log('finished testing', options.repo);
-  }, function (err) {
-    console.error('could not update repo', options.repo);
-    console.error('-------------------------');
-    console.error(err.stack);
-    console.error('-------------------------');
-  });
+if (check.unemptyString(options.repo)) {
+
+  console.log('updating single repo', options.repo);
+  require('./src/update-single-repo')(options);
+
+} else if (check.unemptyString(options.config)) {
+  console.log('reading repos to update from config file', options.config);
+}
