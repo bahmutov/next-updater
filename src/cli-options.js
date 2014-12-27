@@ -1,8 +1,10 @@
 function infoMessage() {
+  var _ = require('lodash');
+  var text = '<%= name %> - <%= description %>\n' +
+    ' version: <%= version %>\n' +
+    ' author: <%= author %>';
   var pkg = require('../package.json');
-  return pkg.name + ' - ' + pkg.description + '\n' +
-    '  version: ' + pkg.version + '\n' +
-    '  author: ' + JSON.stringify(pkg.author);
+  return _.template(text)(pkg);
 }
 
 var info = infoMessage();
