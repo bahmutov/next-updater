@@ -18,7 +18,8 @@
     "next-update": "0.5.2",
     "optimist": "0.6.1",
     "q": "2.0.2",
-    "rimraf": "2.2.8"
+    "rimraf": "2.2.8",
+    "update-notifier": "0.2.2"
   },
   "devDependencies": {
     "eslint-rules": "0.2.0",

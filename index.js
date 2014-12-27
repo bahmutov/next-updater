@@ -2,6 +2,9 @@
 
 require('lazy-ass');
 var check = require('check-types');
+
+require('./src/check-updates');
+
 var options = require('./src/cli-options');
 la(check.object(options), 'missing CLI options', options);
 
