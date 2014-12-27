@@ -15,9 +15,8 @@ var chdir = require('chdir-promise');
 function verifyRepo(repo) {
   verify.unemptyString(repo, 'expected github repo string');
   var usernameReponameRegexp = /[\w]+\/[\w]+/;
-  if (!usernameReponameRegexp.test(repo)) {
-    throw new Error('Expected github username / repo name string, have ' + repo);
-  }
+  la(usernameReponameRegexp.test(repo),
+    'Expected github username / repo name string, have', repo);
 }
 
 function removeFolder(folder) {
@@ -71,8 +70,7 @@ function repoNameToUrl(repo) {
   return 'https://github.com/' + repo + '.git';
 }
 
-function testModuleUpdate(repo) {
-  verifyRepo(repo);
+function cloneInstallAndTest(repo) {
 
   var repoUrl = repoNameToUrl(repo);
   la(check.webUrl(repoUrl), 'could not convert', repo, 'to git url', repoUrl);
@@ -96,6 +94,7 @@ function testModuleUpdate(repo) {
     .then(test)
     .then(function () {
       console.log('tested npm module in', tmpFolder);
+      return tmpFolder;
     }, function (err) {
       console.log('FAILED test for npm module in', tmpFolder);
       if (err) {
@@ -105,6 +104,42 @@ function testModuleUpdate(repo) {
       }
       throw new Error(err);
     });
+}
+
+function testUpdates(repo, folder) {
+  la(check.unemptyString(repo), 'missing repo name', repo);
+  la(check.unemptyString(folder), 'missing folder', folder);
+
+  var nextUpdate = require('next-update');
+  la(check.fn(nextUpdate), 'expected next update function', nextUpdate);
+
+  var options = {
+    keep: true
+  };
+  var checkUpdates = nextUpdate.bind(null, options);
+
+  return chdir.to(folder)
+    .then(checkUpdates)
+    .then(function (result) {
+      console.log('checking updates returned', result);
+    }, function (err) {
+      console.error('checking updates error', err);
+      throw err;
+    })
+    .finally(chdir.from);
+}
+
+function testModuleUpdate(repo) {
+  verifyRepo(repo);
+
+  var testRepo = testUpdates.bind(null, repo);
+
+  return cloneInstallAndTest(repo)
+    .then(function (tmpFolder) {
+      console.log('checking available updates in', tmpFolder);
+      return tmpFolder;
+    })
+    .then(testRepo);
 }
 
 module.exports = {
