@@ -149,6 +149,7 @@ function testModuleUpdate(repo) {
     .then(function (hasChanges) {
       la(check.bool(hasChanges), 'expected has changed boolean', hasChanges);
       if (hasChanges) {
+        console.log('committing changes');
         return ggit.commit(pkg.name + ' has upgraded dependencies');
       }
     });
