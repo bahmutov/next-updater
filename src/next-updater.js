@@ -145,6 +145,12 @@ function testModuleUpdate(repo) {
     .then(function (hasChanges) {
       console.log('after checking for working updates, any uncommitted git changes?', hasChanges);
       return hasChanges;
+    })
+    .then(function (hasChanges) {
+      la(check.bool(hasChanges), 'expected has changed boolean', hasChanges);
+      if (hasChanges) {
+        return ggit.commit(pkg.name + ' has upgraded dependencies');
+      }
     });
 }
 
