@@ -11,7 +11,7 @@
     "chdir-promise": "0.2.0",
     "check-more-types": "1.1.0",
     "check-types": "1.4.0",
-    "ggit": "0.3.2",
+    "ggit": "0.4.1",
     "lazy-ass": "0.5.3",
     "mkdirp": "0.5.0",
     "next-update": "0.5.2",

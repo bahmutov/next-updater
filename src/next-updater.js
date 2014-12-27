@@ -4,7 +4,8 @@ var q = require('q');
 q.longStackSupport = true;
 var check = require('check-more-types');
 var verify = check.verify;
-var cloneRepo = require('ggit').cloneRepo;
+var ggit = require('ggit');
+var cloneRepo = ggit.cloneRepo;
 var exec = require('ggit').exec;
 var path = require('path');
 var fs = require('fs');
@@ -122,6 +123,7 @@ function testUpdates(repo, folder) {
     .then(checkUpdates)
     .then(function (result) {
       console.log('checking updates returned', result);
+      return ggit.hasChanges();
     }, function (err) {
       console.error('checking updates error', err);
       throw err;
@@ -139,7 +141,11 @@ function testModuleUpdate(repo) {
       console.log('checking available updates in', tmpFolder);
       return tmpFolder;
     })
-    .then(testRepo);
+    .then(testRepo)
+    .then(function (hasChanges) {
+      console.log('after checking for working updates, any uncommitted git changes?', hasChanges);
+      return hasChanges;
+    });
 }
 
 module.exports = {
