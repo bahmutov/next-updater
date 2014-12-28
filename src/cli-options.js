@@ -34,7 +34,7 @@ var program = optimist
     string: true,
     alias: 'c',
     description: 'JSON config filename',
-    default: 'next-updater.json'
+    default: null
   })
   .option('user', {
     string: true,

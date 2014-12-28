@@ -22,6 +22,7 @@
     "optimist": "0.6.1",
     "q": "2.0.2",
     "quote": "0.2.2",
+    "request": "2.51.0",
     "rimraf": "2.2.8",
     "strip-json-comments": "1.0.2",
     "update-notifier": "0.2.2"
