@@ -4,10 +4,15 @@
   // single list of repos to test
   // each repo <username>/<repo name>
   "repos": [
+    "bahmutov/available-versions",
+    "bahmutov/aged",
+    "bahmutov/boggle",
+    "bahmutov/changed",
     "bahmutov/quote",
     "bahmutov/todo-format"
   ],
-  // a few options for future features
+  // these options should match command line options
+  // command line options will overwrite these
   "options": {
     // push to remote origin if found and committed changes
     "push": true
