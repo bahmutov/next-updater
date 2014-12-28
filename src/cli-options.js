@@ -36,6 +36,12 @@ var program = optimist
     description: 'JSON config filename',
     default: 'next-updater.json'
   })
+  .option('user', {
+    string: true,
+    alias: 'u',
+    description: 'fetch list of repos for this github username',
+    default: null
+  })
   .usage(info)
   .argv;
 
