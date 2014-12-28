@@ -18,6 +18,12 @@ var program = optimist
     description: 'show version and exit',
     default: false
   })
+  .option('push', {
+    boolean: true,
+    alias: 'p',
+    description: 'push changes (if any) to remote origin',
+    default: true
+  })
   .option('repo', {
     string: true,
     alias: 'r',

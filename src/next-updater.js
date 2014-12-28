@@ -1,5 +1,6 @@
 require('lazy-ass');
 
+var _ = require('lodash');
 var q = require('q');
 q.longStackSupport = true;
 
@@ -138,8 +139,12 @@ function testUpdates(repo, folder) {
     .finally(chdir.from);
 }
 
-function testModuleUpdate(repo) {
+function testModuleUpdate(repo, options) {
   verifyRepo(repo);
+  options = options || {};
+  _.defaults(options, {
+    push: true
+  });
 
   var testRepo = testUpdates.bind(null, repo);
   var localRepoFolder;
@@ -160,13 +165,16 @@ function testModuleUpdate(repo) {
       if (hasChanges) {
         console.log('committing changes');
         var commit = ggit.commit.bind(null, pkg.name + ' has upgraded dependencies');
-        var push = ggit.push.bind(null, true);
+        var push = options.push ? function () {
+          console.log('pushing changes to remote origin');
+          return ggit.push();
+        } : function () {
+          console.log('skipping pushing changes to remote origin');
+          return q();
+        };
 
         return chdir.to(localRepoFolder)
           .then(commit)
-          .then(function () {
-            console.log('pushing changes to remote origin');
-          })
           .then(push)
           .then(chdir.from);
       }

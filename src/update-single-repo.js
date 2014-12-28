@@ -1,7 +1,7 @@
 require('lazy-ass');
 var check = require('check-types');
 var quote = require('quote');
-var nextUpdater = require('./src/next-updater');
+var nextUpdater = require('./next-updater');
 var q = require('q');
 
 function updateSingleRepo(options) {
@@ -9,7 +9,7 @@ function updateSingleRepo(options) {
 
   var defer = q.defer();
 
-  nextUpdater.testModuleUpdate(options.repo)
+  nextUpdater.testModuleUpdate(options.repo, options)
     .finally(function () {
       console.log('finished testing', quote(options.repo));
     }, function (err) {
