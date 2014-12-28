@@ -10,6 +10,6 @@
   // a few options for future features
   "options": {
     // push to remote origin if found and committed changes
-    "push": false
+    "push": true
   }
 }
