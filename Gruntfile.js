@@ -2,7 +2,7 @@
 module.exports = function(grunt) {
   require('time-grunt')(grunt);
 
-  var sourceFiles = ['index.js', 'src/**/*.js'];
+  var sourceFiles = ['index.js', 'src/**/*.js', '!src/**/cover/**/*.js'];
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -37,7 +37,15 @@ module.exports = function(grunt) {
     },
 
     complexity: {
-      default: grunt.file.readJSON('complexity.json')
+      all: {
+        src: [sourceFiles, '!index.js', '!src/**/test/*.js'],
+        options: {
+          errorsOnly: false,
+          cyclomatic: 7,
+          halstead: 18,
+          maintainability: 100
+        }
+      }
     },
 
     'nice-package': {

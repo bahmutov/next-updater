@@ -3,6 +3,7 @@ require('lazy-ass');
 var _ = require('lodash');
 var q = require('q');
 q.longStackSupport = true;
+var updateSummary = require('./update-summary');
 
 var check = require('check-more-types');
 check.mixin(function (url) {
@@ -139,6 +140,19 @@ function testUpdates(repo, folder) {
     .finally(chdir.from);
 }
 
+function commitSummary(testResults) {
+  var summary = updateSummary(testResults);
+  la(check.object(summary), 'could not get update summary from test results', testResults);
+  // object, keys - working names, values - versions
+  var workingDependencies = Object.keys(summary);
+  la(workingDependencies.length,
+    'there are git changes, but no successful updates', testResults);
+
+  var commitMessage = pkg.name + ' has upgraded ' + workingDependencies.length +
+    (workingDependencies.length === 1 ? ' dependency ' : ' dependencies');
+  return commitMessage;
+}
+
 function testModuleUpdate(repo, options) {
   verifyRepo(repo);
   options = options || {};
@@ -163,8 +177,11 @@ function testModuleUpdate(repo, options) {
     .then(function (testResults) {
       if (testResults) {
         la(check.array(testResults), 'expected detailed test results', testResults);
-        console.log('committing changes');
-        var commit = ggit.commit.bind(null, pkg.name + ' has upgraded dependencies');
+
+        var commitMessage = commitSummary(testResults);
+        console.log('committing changes:', commitMessage);
+        var commit = ggit.commit.bind(null, commitMessage);
+
         var push = options.push ? function () {
           console.log('pushing changes to remote origin');
           return ggit.push();

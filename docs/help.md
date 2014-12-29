@@ -1,6 +1,6 @@
 ```
 next-updater - Dependable and safe automatic dependency updater for Nodejs packages
- version: 0.4.3
+ version: 0.5.0
  author: Gleb Bahmutov <gleb.bahmutov@gmail.com>
  more info at: https://github.com/bahmutov/next-updater
 
