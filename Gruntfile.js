@@ -46,6 +46,14 @@ module.exports = function(grunt) {
       }
     },
 
+    help: {
+      options: {
+        destination: 'docs/help.md',
+        characters: '```'
+      },
+      all: {}
+    },
+
     readme: {
       options: {
         readme: './docs/README.tmpl.md',
@@ -75,6 +83,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('lint', ['jsonlint', 'jshint', 'eslint', 'jscs']);
   grunt.registerTask('pre-check', ['deps-ok', 'lint', 'nice-package', 'complexity']);
-  grunt.registerTask('default', ['pre-check', 'readme']);
-  grunt.registerTask('release', ['bump-only:patch', 'readme', 'bump-commit']);
+  grunt.registerTask('default', ['pre-check', 'help', 'readme']);
+  grunt.registerTask('release', ['bump-only:patch', 'help', 'readme', 'bump-commit']);
 };
