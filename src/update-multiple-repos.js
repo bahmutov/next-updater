@@ -9,6 +9,21 @@ function updateMultipleRepos(options, repos) {
   la(check.object(options), 'missing options');
   la(check.arrayOfStrings(repos), 'cannot find repos list', repos);
 
+  options.skip = options.skip || [];
+  if (check.unemptyString(options.skip)) {
+    options.skip = [options.skip];
+  }
+  la(check.arrayOfStrings(options.skip), 'skip repos should be a list of names', options);
+
+  if (options.skip.length) {
+    console.log('will skip the following repos', options.skip);
+  }
+
+  function isSkipped(repoName) {
+    return options.skip.indexOf(repoName) !== -1;
+  }
+  _.remove(repos, isSkipped);
+
   var updates = q();
   repos.forEach(function (repo) {
     var opts = _.cloneDeep(options);
