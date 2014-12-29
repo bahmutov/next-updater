@@ -178,6 +178,10 @@ function testModuleUpdate(repo, options) {
           .then(push)
           .then(chdir.from);
       }
+    })
+    .catch(function (err) {
+      console.error('Failed to test', repo);
+      console.error(err);
     });
 }
 
