@@ -143,6 +143,7 @@ function testUpdates(repo, folder) {
 function commitSummary(testResults) {
   var summary = updateSummary(testResults);
   la(check.object(summary), 'could not get update summary from test results', testResults);
+
   // object, keys - working names, values - versions
   var workingDependencies = Object.keys(summary);
   la(workingDependencies.length,
@@ -151,6 +152,20 @@ function commitSummary(testResults) {
   var commitMessage = pkg.name + ' has upgraded ' + workingDependencies.length +
     (workingDependencies.length === 1 ? ' dependency ' : ' dependencies');
   return commitMessage;
+}
+
+function commitDetails(testResults) {
+  var summary = updateSummary(testResults);
+  la(check.object(summary), 'could not get update summary from test results', testResults);
+
+  var details = 'Hi!\n\nI have upgraded dependencies to the latest non-breaking versions\n\n';
+  _.forEach(summary, function (version, name) {
+    details += '    ' + name + ' -> ' + version + '\n';
+  });
+
+  details += '\n';
+  details += 'Truly yours, [' + pkg.name + '](' + pkg.homepage + ')\n';
+  return details;
 }
 
 function testModuleUpdate(repo, options) {
@@ -179,8 +194,13 @@ function testModuleUpdate(repo, options) {
         la(check.array(testResults), 'expected detailed test results', testResults);
 
         var commitMessage = commitSummary(testResults);
+        var updateDetails = commitDetails(testResults);
+        la(check.maybe.unemptyString(updateDetails),
+          'expected update details to be a string', updateDetails);
+
         console.log('committing changes:', commitMessage);
-        var commit = ggit.commit.bind(null, commitMessage);
+        console.log(updateDetails);
+        var commit = ggit.commit.bind(null, commitMessage, updateDetails);
 
         var push = options.push ? function () {
           console.log('pushing changes to remote origin');

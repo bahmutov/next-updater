@@ -1,7 +1,7 @@
 {
   "name": "next-updater",
   "description": "Dependable and safe automatic dependency updater for Nodejs packages",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "bin": {
     "next-updater": "./index.js"
@@ -14,7 +14,7 @@
     "chdir-promise": "0.2.0",
     "check-more-types": "1.1.1",
     "check-types": "1.4.0",
-    "ggit": "0.6.0",
+    "ggit": "0.6.1",
     "hr": "0.1.3",
     "lazy-ass": "0.5.3",
     "lodash": "2.4.1",

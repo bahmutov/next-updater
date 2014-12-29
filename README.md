@@ -1,4 +1,4 @@
-# next-updater v0.5.1
+# next-updater v0.6.0
 
 > Dependable and safe automatic dependency updater for Nodejs packages
 
@@ -23,7 +23,7 @@
 ## Command line options
 ```
 next-updater - Dependable and safe automatic dependency updater for Nodejs packages
- version: 0.5.1
+ version: 0.6.0
  author: Gleb Bahmutov <gleb.bahmutov@gmail.com>
  more info at: https://github.com/bahmutov/next-updater
 
