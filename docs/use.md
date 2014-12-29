@@ -41,7 +41,7 @@ next-updater --config my-repos.json --push false
 
 Typical config file is a JSON file, but allows C-style comments
 
-```json
+```js
 {
   // single list of repos to test
   // each repo <username>/<repo name>
