@@ -131,7 +131,7 @@ function testUpdates(repo, folder) {
     .then(checkUpdates)
     .then(function (result) {
       console.log('checking updates returned', result);
-      return ggit.hasChanges();
+      return q.all([ggit.hasChanges(), result]);
     }, function (err) {
       console.error('checking updates error', err);
       throw err;
@@ -156,13 +156,13 @@ function testModuleUpdate(repo, options) {
       return tmpFolder;
     })
     .then(testRepo)
-    .then(function (hasChanges) {
+    .spread(function (hasChanges, testResults) {
       console.log('after checking for working updates, any uncommitted git changes?', hasChanges);
-      return hasChanges;
+      return hasChanges ? testResults : null;
     })
-    .then(function (hasChanges) {
-      la(check.bool(hasChanges), 'expected has changed boolean', hasChanges);
-      if (hasChanges) {
+    .then(function (testResults) {
+      if (testResults) {
+        la(check.array(testResults), 'expected detailed test results', testResults);
         console.log('committing changes');
         var commit = ggit.commit.bind(null, pkg.name + ' has upgraded dependencies');
         var push = options.push ? function () {
