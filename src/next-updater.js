@@ -213,7 +213,7 @@ function testModuleUpdate(repo, options) {
         return chdir.to(localRepoFolder)
           .then(commit)
           .then(push)
-          .then(chdir.from);
+          .finally(chdir.from);
       }
     })
     .catch(function (err) {
