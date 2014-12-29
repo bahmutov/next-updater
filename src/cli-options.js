@@ -42,6 +42,12 @@ var program = optimist
     description: 'fetch list of repos for this github username',
     default: null
   })
+  .option('sort', {
+    string: true,
+    alias: 's',
+    description: 'sort repos (asc, desc, reverse)',
+    default: null
+  })
   .usage(info)
   .argv;
 
