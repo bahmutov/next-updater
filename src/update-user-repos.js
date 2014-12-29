@@ -1,39 +1,57 @@
 require('lazy-ass');
 var check = require('check-more-types');
-var request = require('request');
 var q = require('q');
 var quote = require('quote');
 var _ = require('lodash');
 var updateMultipleRepos = require('./update-multiple-repos');
+var github = require('octonode');
 
-function githubReposForUserUrl(username) {
-  la(check.unemptyString(username), 'expected username');
-  return 'https://api.github.com/users/' + username + '/repos';
+function getReposPage(ghuser, k, allRepos) {
+  la(check.positiveNumber(k), 'invalid repos page index', k);
+  allRepos = allRepos || [];
+
+  la(check.array(allRepos), 'expected all repos to be an array', allRepos);
+
+  var defer = q.defer();
+
+  console.log('fetching repos page', k);
+  var perPage = 100;
+
+  ghuser.repos(k, perPage, function (err, repos) {
+    if (err) {
+      console.error(err);
+      defer.resolve(allRepos);
+      return;
+    }
+    if (!check.array(repos) || repos.length === 0) {
+      console.log('no repos at page', k, 'have', allRepos.length, 'total repos');
+      defer.resolve(allRepos);
+      return;
+    }
+
+    console.log(repos.length + ' repos on page ' + k);
+    allRepos = allRepos.concat(repos);
+
+    defer.resolve(getReposPage(ghuser, k + 1, allRepos));
+  });
+
+  return defer.promise;
 }
 
 function getUserRepos(username) {
+  la(check.unemptyString(username), 'missing github username', username);
+
   var defer = q.defer();
-  var url = githubReposForUserUrl(username);
 
-  var options = {
-    method: 'GET',
-    url: url,
-    headers: {
-      'User-Agent': username
-    }
-  };
+  var client = github.client();
+  var ghuser = client.user(username);
 
-  request(options, function (err, response, body) {
-    if (err) {
-      console.error(err);
-      defer.reject(err);
+  getReposPage(ghuser, 1).then(function (allRepos) {
+    console.log('fetched', allRepos.length, 'repos for user', quote(username));
+    if (!check.array(allRepos) || allRepos.length === 0) {
+      defer.reject('Could not fetch any repos for user ' + quote(username));
     } else {
-      if (response.statusCode !== 200) {
-        console.error(response.statusCode + ': ' + body);
-        defer.reject(new Error(body));
-      } else {
-        defer.resolve(JSON.parse(body));
-      }
+      defer.resolve(allRepos);
     }
   });
 
@@ -58,6 +76,7 @@ function updateUserRepos(options) {
       return originalRepos;
     })
     .then(function (originalRepos) {
+      // move to multiple repos function
       switch (options.sort) {
         case 'reverse': {
           originalRepos.reverse();
