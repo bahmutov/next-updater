@@ -4,6 +4,7 @@ var request = require('request');
 var q = require('q');
 var quote = require('quote');
 var _ = require('lodash');
+var updateMultipleRepos = require('./update-multiple-repos');
 
 function githubReposForUserUrl(username) {
   la(check.unemptyString(username), 'expected username');
@@ -69,6 +70,12 @@ function updateUserRepos(options) {
         }
       }
       return originalRepos;
+    })
+    .then(function (repos) {
+      return _.pluck(repos, 'full_name');
+    })
+    .then(function (repoNames) {
+      return updateMultipleRepos(options, repoNames);
     })
     .done();
 }

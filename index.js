@@ -17,7 +17,7 @@ if (check.unemptyString(options.repo)) {
 } else if (check.unemptyString(options.config)) {
 
   console.log('reading repos to update from config file', quote(options.config));
-  require('./src/update-multiple-repos')(options);
+  require('./src/update-from-config')(options);
 
 } else if (check.unemptyString(options.user)) {
 
