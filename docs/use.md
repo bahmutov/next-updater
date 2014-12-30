@@ -61,6 +61,12 @@ Typical config file is a JSON file, but allows C-style comments
   "options": {
     // push to remote origin if found and committed changes
     "push": true,
+    // delete temp folder after finished
+    "clean": true,
+    // sort order: listed, reverse, asc, desc
+    // youngest and oldest
+    //  apply to repo list fetched from github for given username
+    "sort": "asc",
     // skip testing these repos
     "skip": ["foo/baz"]
   }

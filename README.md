@@ -33,7 +33,7 @@ Options:
   --repo, -r     <github username/repo>                        [default: null]
   --config, -c   JSON config filename                          [default: null]
   --user, -u     fetch list of repos for this github username  [default: null]
-  --sort, -s     sort repos (asc, desc, reverse)               [string]  [default: null]
+  --sort, -s     sort repos (listed, reverse, asc, desc)       [string]  [default: undefined]
   --clean        delete temp folder after finished             [default: false]
   --allow        Allow major / minor / patch updates           [default: "major"]
 ```
@@ -103,6 +103,12 @@ Typical config file is a JSON file, but allows C-style comments
   "options": {
     // push to remote origin if found and committed changes
     "push": true,
+    // delete temp folder after finished
+    "clean": true,
+    // sort order: listed, reverse, asc, desc
+    // youngest and oldest
+    //  apply to repo list fetched from github for given username
+    "sort": "asc",
     // skip testing these repos
     "skip": ["foo/baz"]
   }

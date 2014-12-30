@@ -76,15 +76,13 @@ function updateUserRepos(options) {
       return originalRepos;
     })
     .then(function (originalRepos) {
-      // move to multiple repos function
       switch (options.sort) {
-        case 'reverse': {
-          originalRepos.reverse();
-          console.log('reversed repos order');
+        case 'oldest': {
+          console.log('sorted repos from oldest to youngest');
           break;
         }
-        default: {
-          console.log('leaving original sort order');
+        case 'youngest': {
+          console.log('sorted repos from youngest to oldest');
           break;
         }
       }

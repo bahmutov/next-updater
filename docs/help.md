@@ -10,7 +10,7 @@ Options:
   --repo, -r     <github username/repo>                        [default: null]
   --config, -c   JSON config filename                          [default: null]
   --user, -u     fetch list of repos for this github username  [default: null]
-  --sort, -s     sort repos (asc, desc, reverse)               [string]  [default: null]
+  --sort, -s     sort repos (listed, reverse, asc, desc)       [string]  [default: undefined]
   --clean        delete temp folder after finished             [default: false]
   --allow        Allow major / minor / patch updates           [default: "major"]
 ```

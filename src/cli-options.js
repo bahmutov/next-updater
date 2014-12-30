@@ -45,8 +45,7 @@ var program = optimist
   .option('sort', {
     string: true,
     alias: 's',
-    description: 'sort repos (asc, desc, reverse)',
-    default: null
+    description: 'sort repos (listed, reverse, asc, desc)'
   })
   .option('clean', {
     boolean: true,

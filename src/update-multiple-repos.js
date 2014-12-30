@@ -5,6 +5,35 @@ la(check.fn(updateSingleRepo), 'missing update single repo function', updateSing
 var _ = require('lodash');
 var q = require('q');
 
+function sortRepoNames(sort, repos) {
+  la(check.unemptyString(sort), 'missing sort order string', sort);
+  la(check.arrayOfStrings(repos), 'missing repos', repos);
+
+  switch (sort) {
+    case 'asc': {
+      repos.sort();
+      repos.reverse();
+      console.log('sorted repos from Z to A');
+      break;
+    }
+    case 'desc': {
+      repos.sort();
+      console.log('sorted repos from A to Z');
+      break;
+    }
+    case 'reverse': {
+      repos.reverse();
+      console.log('reversed repos order');
+      break;
+    }
+    default: {
+      console.log('leaving the original sort order');
+      break;
+    }
+  }
+  return repos;
+}
+
 function updateMultipleRepos(options, repos) {
   la(check.object(options), 'missing options');
   la(check.arrayOfStrings(repos), 'cannot find repos list', repos);
@@ -19,10 +48,14 @@ function updateMultipleRepos(options, repos) {
     console.log('will skip the following repos', options.skip);
   }
 
+  options.sort = options.sort || 'listed';
+
   function isSkipped(repoName) {
     return options.skip.indexOf(repoName) !== -1;
   }
   _.remove(repos, isSkipped);
+
+  repos = sortRepoNames(options.sort, repos);
 
   var updates = q();
   repos.forEach(function (repo) {

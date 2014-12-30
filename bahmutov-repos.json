@@ -19,6 +19,10 @@
     "push": true,
     // delete temp folder after finished
     "clean": true,
+    // sort order: listed, reverse, asc, desc
+    // youngest and oldest
+    //  apply to repo list fetched from github for given username
+    "sort": "asc",
     // skip testing these repos
     "skip": ["bahmutov/available-versions"]
   }
