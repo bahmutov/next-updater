@@ -63,6 +63,12 @@ This way you can validate the results in the temp folder first.
 next-updater --repo <github username>/<github reponame> --push false
 ```
 
+Only check minor and patch updates, delete temp folder after pushing
+
+```sh
+next-updater --repo <github username>/<github reponame> --allow minor --clean
+```
+
 ### Update all github repos
 
 Uses Github API to fetch all repos for the given username, then updates and pushes them one by one.
