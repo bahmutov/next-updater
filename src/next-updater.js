@@ -160,8 +160,8 @@ function commitDetails(testResults) {
   la(check.object(summary), 'could not get update summary from test results', testResults);
 
   var details = 'Hi!\n\nI have upgraded dependencies to the latest non-breaking versions\n\n';
-  _.forEach(summary, function (version, name) {
-    details += '    ' + name + ' -> ' + version + '\n';
+  _.forEach(summary, function (versions, name) {
+    details += '    ' + name + ' ' + versions.from + ' -> ' + versions.to + '\n';
   });
 
   details += '\n';

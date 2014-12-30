@@ -15,7 +15,10 @@ function toUpdateSummary(testResults) {
         'missing dependency version', result, 'in', dependencyResults);
 
       if (result.works) {
-        summary[result.name] = result.version;
+        summary[result.name] = {
+          from: result.from,
+          to: result.version
+        };
       }
     });
   });
