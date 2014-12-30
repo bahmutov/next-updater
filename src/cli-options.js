@@ -57,6 +57,11 @@ var program = optimist
     default: 'major',
     description: 'Allow major / minor / patch updates'
   })
+  .option('publish', {
+    boolean: true,
+    default: false,
+    description: 'Publish to NPM (if updated and has package.json)'
+  })
   .usage(info)
   .argv;
 

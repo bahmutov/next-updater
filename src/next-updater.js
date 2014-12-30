@@ -22,6 +22,7 @@ var tmpdir = require('os').tmpdir;
 var pkg = require('../package.json');
 var chdir = require('chdir-promise');
 var quote = require('quote');
+var release = require('release-it').execute;
 
 function verifyRepo(repo) {
   verify.unemptyString(repo, 'expected github repo string');
@@ -202,9 +203,34 @@ function testModuleUpdate(repo, options) {
           return q();
         };
 
+        var maybeRelease = function maybeRelease() {
+          if (options.publish && fs.existsSync('./package.json')) {
+            var testedPackage = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
+            if (!testedPackage.private &&
+              check.object(testedPackage.repository) &&
+              testedPackage.repository.type === 'git' &&
+              check.unemptyString(testedPackage.repository.url)) {
+
+              console.log('Publishing', testedPackage.name, 'to NPM');
+              var releaseResult = release({
+                'non-interactive': true,
+                verbose: true,
+                increment: 'patch',
+                publish: true,
+                distRepo: testedPackage.repository.url
+              });
+
+              return releaseResult.then(function () {
+                console.log('release result', releaseResult);
+              });
+            }
+          }
+        };
+
         return chdir.to(localRepoFolder)
           .then(commit)
           .then(push)
+          .then(maybeRelease)
           .finally(chdir.from);
       }
     })
