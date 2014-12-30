@@ -1,7 +1,7 @@
 {
   "name": "next-updater",
   "description": "Dependable and safe automatic dependency updater for Nodejs packages",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "bin": {
     "next-updater": "./index.js"
@@ -24,7 +24,6 @@
     "optimist": "0.6.1",
     "q": "2.0.2",
     "quote": "0.2.2",
-    "release-it": "0.0.13",
     "rimraf": "2.2.8",
     "strip-json-comments": "1.0.2",
     "update-notifier": "0.2.2"

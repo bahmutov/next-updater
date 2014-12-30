@@ -1,4 +1,4 @@
-# next-updater v0.7.0
+# next-updater v0.8.0
 
 > Dependable and safe automatic dependency updater for Nodejs packages
 
@@ -23,7 +23,7 @@
 ## Command line options
 ```
 next-updater - Dependable and safe automatic dependency updater for Nodejs packages
- version: 0.7.0
+ version: 0.8.0
  author: Gleb Bahmutov <gleb.bahmutov@gmail.com>
  more info at: https://github.com/bahmutov/next-updater
 
@@ -71,6 +71,14 @@ Only check minor and patch updates, delete temp folder after pushing
 next-updater --repo <github username>/<github reponame> --allow minor --clean
 ```
 
+Update patch dependencies, commit changes, tag package with new version (increments patch),
+then push to remote and publishes to NPM. Checks if there is *package.json* and the package is
+not marked `private`.
+
+```sh
+next-updater --repo <github username>/<github reponame> --push true --tag true --publish true
+```
+
 ### Update all github repos
 
 Uses Github API to fetch all repos for the given username, then updates and pushes them one by one.
@@ -85,6 +93,8 @@ only patch updates
 ```sh
 next-updater --user <github username> --sort oldest --allow patch
 ```
+
+Other options from the above are also applied to each repo (`--push, --tag, etc`).
 
 ### Update using parameters from config JSON file
 

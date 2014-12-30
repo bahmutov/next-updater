@@ -210,38 +210,31 @@ function testModuleUpdate(repo, options) {
           return q();
         };
 
-        /*
-        var maybeRelease = function maybeRelease() {
-          if (options.publish && fs.existsSync('./package.json')) {
+        var publish = options.publish ? function () {
+
+          if (fs.existsSync('./package.json')) {
             var testedPackage = JSON.parse(fs.readFileSync('./package.json'), 'utf-8');
-            if (!testedPackage.private &&
-              check.object(testedPackage.repository) &&
-              testedPackage.repository.type === 'git' &&
-              check.unemptyString(testedPackage.repository.url)) {
-
-              console.log('Tagging with new version');
-              return exec('npm version patch');
-
-              console.log('Publishing', testedPackage.name, 'to NPM');
-              return release({
-                'non-interactive': true,
-                'dry-run': true,
-                'pkgFiles': [fullPath],
-                verbose: true,
-                increment: 'patch',
-                publish: false
-              }).then(function () {
-                console.log('release result', releaseResult);
-              });
+            if (!testedPackage.private) {
+              console.log('publishing module to NPM');
+              return exec('npm publish');
+            } else {
+              console.log('package', quote(testedPackage.name), 'is marked private');
             }
+          } else {
+            console.log('cannot find package.json in', quote(process.cwd()));
           }
-        };*/
+
+          return q();
+        } : function () {
+          console.log('skipping publishing to NPM');
+          return q();
+        };
 
         return chdir.to(localRepoFolder)
           .then(commit)
           .then(tag)
           .then(push)
-          // .then(maybeRelease)
+          .then(publish)
           .finally(chdir.from);
       }
     })
