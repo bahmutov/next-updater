@@ -112,10 +112,8 @@ function cloneInstallAndTest(repo) {
         console.log(err);
         console.log('==================');
       }
-      throw new Error(err);
-    })
-    .finally(function () {
       cleanupTempFolder(tmpFolder);
+      throw new Error(err);
     });
 }
 
@@ -180,14 +178,11 @@ function testModuleUpdate(repo, options) {
 
   var testRepo = testUpdates.bind(null, repo);
   var localRepoFolder;
-  var removeLocalFolder;
 
   return cloneInstallAndTest(repo)
     .then(function (tmpFolder) {
       console.log('checking available updates in', tmpFolder);
       localRepoFolder = tmpFolder;
-      removeLocalFolder = options.clean || options.cleanup ?
-        cleanupTempFolder.bind(null, tmpFolder) : _.noop;
       return tmpFolder;
     })
     .then(testRepo)
@@ -226,7 +221,11 @@ function testModuleUpdate(repo, options) {
       console.error('Failed to test', repo);
       console.error(err);
     })
-    .finally(removeLocalFolder)
+    .finally(function () {
+      if (options.clean || options.cleanup) {
+        cleanupTempFolder(localRepoFolder);
+      }
+    })
     .catch(function (err) {
       console.error('Problem cleaning up temp folder', quote(localRepoFolder));
       console.error(err);
