@@ -21,6 +21,7 @@ var fs = require('fs');
 var tmpdir = require('os').tmpdir;
 var pkg = require('../package.json');
 var chdir = require('chdir-promise');
+var quote = require('quote');
 
 function verifyRepo(repo) {
   verify.unemptyString(repo, 'expected github repo string');
@@ -29,11 +30,11 @@ function verifyRepo(repo) {
     'Expected github username / repo name string, have', repo);
 }
 
-function removeFolder(folder) {
+function cleanupTempFolder(folder) {
   verify.unemptyString(folder, 'expected folder name');
   if (fs.existsSync(folder)) {
-    console.log('removing folder', folder);
-    return exec('rm -rf ' + folder);
+    require('rimraf').sync(folder);
+    console.log('removed temp local folder', quote(folder));
   }
 }
 
@@ -94,7 +95,7 @@ function cloneInstallAndTest(repo) {
   var install = installDependencies.bind(null, tmpFolder);
   var test = testModule.bind(null, tmpFolder);
 
-  return q(removeFolder(tmpFolder))
+  return q(cleanupTempFolder(tmpFolder))
     .then(clone)
     .then(function () {
       console.log('cloned', repo, 'to', tmpFolder);
@@ -112,6 +113,9 @@ function cloneInstallAndTest(repo) {
         console.log('==================');
       }
       throw new Error(err);
+    })
+    .finally(function () {
+      cleanupTempFolder(tmpFolder);
     });
 }
 
@@ -176,18 +180,14 @@ function testModuleUpdate(repo, options) {
 
   var testRepo = testUpdates.bind(null, repo);
   var localRepoFolder;
-
-  function cleanupTempFolder() {
-    if (options.cleanup || options.clean) {
-      require('rimraf').sync(localRepoFolder);
-      console.log('removed temp local folder');
-    }
-  }
+  var removeLocalFolder;
 
   return cloneInstallAndTest(repo)
     .then(function (tmpFolder) {
       console.log('checking available updates in', tmpFolder);
       localRepoFolder = tmpFolder;
+      removeLocalFolder = options.clean || options.cleanup ?
+        cleanupTempFolder.bind(null, tmpFolder) : _.noop;
       return tmpFolder;
     })
     .then(testRepo)
@@ -226,7 +226,11 @@ function testModuleUpdate(repo, options) {
       console.error('Failed to test', repo);
       console.error(err);
     })
-    .finally(cleanupTempFolder);
+    .finally(removeLocalFolder)
+    .catch(function (err) {
+      console.error('Problem cleaning up temp folder', quote(localRepoFolder));
+      console.error(err);
+    });
 }
 
 module.exports = {
