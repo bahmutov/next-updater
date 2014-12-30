@@ -36,6 +36,7 @@
     "grunt-contrib-jshint": "0.10.0",
     "grunt-deps-ok": "0.5.2",
     "grunt-eslint": "2.1.0",
+    "grunt-gt": "0.1.4",
     "grunt-help": "0.5.0",
     "grunt-jscs": "1.1.0",
     "grunt-jsonlint": "1.0.4",

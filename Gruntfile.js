@@ -69,6 +69,7 @@ module.exports = function(grunt) {
         templates: './docs'
       }
     },
+
     /* to bump version, then run grunt (to update readme), then commit
     grunt release
     */
@@ -83,6 +84,12 @@ module.exports = function(grunt) {
         push: true,
         pushTo: 'origin'
       }
+    },
+
+    gt: {
+      test: {
+        src: ['./src/test/*.js']
+      }
     }
   });
 
@@ -91,6 +98,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('lint', ['jsonlint', 'jshint', 'eslint', 'jscs']);
   grunt.registerTask('pre-check', ['deps-ok', 'lint', 'nice-package', 'complexity']);
-  grunt.registerTask('default', ['pre-check', 'help', 'readme']);
+  grunt.registerTask('test', ['gt']);
+  grunt.registerTask('default', ['pre-check', 'test', 'help', 'readme']);
   grunt.registerTask('release', ['bump-only:patch', 'help', 'readme', 'bump-commit']);
 };
