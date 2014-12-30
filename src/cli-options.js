@@ -55,12 +55,18 @@ var program = optimist
   .option('allow', {
     string: true,
     default: 'major',
-    description: 'Allow major / minor / patch updates'
+    description: 'allow major / minor / patch updates'
+  })
+  .option('tag', {
+    boolean: true,
+    default: false,
+    alias: 't',
+    description: 'tag changed code with new patch version'
   })
   .option('publish', {
     boolean: true,
     default: false,
-    description: 'Publish to NPM (if updated and has package.json)'
+    description: 'publish to NPM (if updated and has package.json)'
   })
   .usage(info)
   .argv;

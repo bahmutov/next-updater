@@ -11,7 +11,6 @@ check.mixin(function (url) {
     /^git@/.test(url);
 }, 'git');
 
-
 var verify = check.verify;
 var ggit = require('ggit');
 var cloneRepo = ggit.cloneRepo;
@@ -22,7 +21,7 @@ var tmpdir = require('os').tmpdir;
 var pkg = require('../package.json');
 var chdir = require('chdir-promise');
 var quote = require('quote');
-var release = require('release-it').execute;
+// var release = require('release-it').execute;
 
 function verifyRepo(repo) {
   verify.unemptyString(repo, 'expected github repo string');
@@ -203,34 +202,46 @@ function testModuleUpdate(repo, options) {
           return q();
         };
 
+        var tag = options.tag ? function () {
+          console.log('bumping and tagging with new version');
+          return exec('npm version patch');
+        } : function () {
+          console.log('skipping bumping the version number');
+          return q();
+        };
+
+        /*
         var maybeRelease = function maybeRelease() {
           if (options.publish && fs.existsSync('./package.json')) {
-            var testedPackage = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
+            var testedPackage = JSON.parse(fs.readFileSync('./package.json'), 'utf-8');
             if (!testedPackage.private &&
               check.object(testedPackage.repository) &&
               testedPackage.repository.type === 'git' &&
               check.unemptyString(testedPackage.repository.url)) {
 
+              console.log('Tagging with new version');
+              return exec('npm version patch');
+
               console.log('Publishing', testedPackage.name, 'to NPM');
-              var releaseResult = release({
+              return release({
                 'non-interactive': true,
+                'dry-run': true,
+                'pkgFiles': [fullPath],
                 verbose: true,
                 increment: 'patch',
-                publish: true,
-                distRepo: testedPackage.repository.url
-              });
-
-              return releaseResult.then(function () {
+                publish: false
+              }).then(function () {
                 console.log('release result', releaseResult);
               });
             }
           }
-        };
+        };*/
 
         return chdir.to(localRepoFolder)
           .then(commit)
+          .then(tag)
           .then(push)
-          .then(maybeRelease)
+          // .then(maybeRelease)
           .finally(chdir.from);
       }
     })
