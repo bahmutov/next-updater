@@ -12,6 +12,7 @@ function updateSingleRepo(options) {
 
   hr('=');
 
+  // console.log('updating single repo, options', options);
   nextUpdater.testModuleUpdate(options.repo, options)
     .finally(function () {
       console.log('finished testing', quote(options.repo));

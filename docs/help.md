@@ -1,6 +1,6 @@
 ```
 next-updater - Dependable and safe automatic dependency updater for Nodejs packages
- version: 0.6.4
+ version: 0.6.5
  author: Gleb Bahmutov <gleb.bahmutov@gmail.com>
  more info at: https://github.com/bahmutov/next-updater
 
@@ -12,4 +12,5 @@ Options:
   --user, -u     fetch list of repos for this github username  [default: null]
   --sort, -s     sort repos (asc, desc, reverse)               [string]  [default: null]
   --clean        delete temp folder after finished             [default: false]
+  --allow        Allow major / minor / patch updates           [default: "major"]
 ```

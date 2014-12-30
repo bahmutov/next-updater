@@ -53,6 +53,11 @@ var program = optimist
     description: 'delete temp folder after finished',
     default: false
   })
+  .option('allow', {
+    string: true,
+    default: 'major',
+    description: 'Allow major / minor / patch updates'
+  })
   .usage(info)
   .argv;
 

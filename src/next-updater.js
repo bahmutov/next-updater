@@ -51,16 +51,6 @@ function installDependencies(folder) {
     .finally(chdir.back);
 }
 
-function testModule(folder) {
-  verify.unemptyString(folder, 'expected folder name');
-  console.log('testing module', folder);
-
-  var npmTest = exec.bind(null, 'npm test');
-  return chdir.to(folder)
-    .then(npmTest)
-    .finally(chdir.back);
-}
-
 // returns tmp folder for given repo
 // repoName: smith/foo for example
 function folderForRepo(repoName) {
@@ -93,7 +83,6 @@ function cloneInstallAndTest(repo) {
     folder: tmpFolder
   });
   var install = installDependencies.bind(null, tmpFolder);
-  var test = testModule.bind(null, tmpFolder);
 
   return q(cleanupTempFolder(tmpFolder))
     .then(clone)
@@ -101,7 +90,6 @@ function cloneInstallAndTest(repo) {
       console.log('cloned', repo, 'to', tmpFolder);
     })
     .then(install)
-    .then(test)
     .then(function () {
       console.log('tested npm module in', tmpFolder);
       return tmpFolder;
@@ -117,22 +105,24 @@ function cloneInstallAndTest(repo) {
     });
 }
 
-function testUpdates(repo, folder) {
+function testUpdates(repo, options, folder) {
   la(check.unemptyString(repo), 'missing repo name', repo);
   la(check.unemptyString(folder), 'missing folder', folder);
 
   var nextUpdate = require('next-update');
   la(check.fn(nextUpdate), 'expected next update function', nextUpdate);
 
-  var options = {
-    keep: true
+  var updateOptions = {
+    keep: true,
+    allow: options.allow || options.allowed
   };
-  var checkUpdates = nextUpdate.bind(null, options);
+  console.log('update options', updateOptions);
+  var checkUpdates = nextUpdate.bind(null, updateOptions);
 
   return chdir.to(folder)
     .then(checkUpdates)
     .then(function (result) {
-      console.log('checking updates returned', result);
+      // console.log('checking updates returned', result);
       return q.all([ggit.hasChanges(), result]);
     }, function (err) {
       console.error('checking updates error', err);
@@ -176,7 +166,7 @@ function testModuleUpdate(repo, options) {
     push: true
   });
 
-  var testRepo = testUpdates.bind(null, repo);
+  var testRepo = testUpdates.bind(null, repo, options);
   var localRepoFolder;
 
   return cloneInstallAndTest(repo)
@@ -191,8 +181,9 @@ function testModuleUpdate(repo, options) {
       return hasChanges ? testResults : null;
     })
     .then(function (testResults) {
-      if (testResults) {
-        la(check.array(testResults), 'expected detailed test results', testResults);
+      // if testResults is an object, next-update could not find any updates
+      // and just resolved with current module versions
+      if (testResults && check.array(testResults)) {
 
         var commitMessage = commitSummary(testResults);
         var updateDetails = commitDetails(testResults);
