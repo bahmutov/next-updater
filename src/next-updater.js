@@ -42,12 +42,11 @@ function installDependencies(folder) {
   console.log('installing dependencies', folder);
 
   var npmInstall = exec.bind(null, 'npm install');
+  var message = console.log.bind(console, 'installed dependencies in', folder);
 
   return chdir.to(folder)
     .then(npmInstall)
-    .then(function () {
-      console.log('installed dependencies in', folder);
-    })
+    .then(message)
     .finally(chdir.back);
 }
 
@@ -178,6 +177,13 @@ function testModuleUpdate(repo, options) {
   var testRepo = testUpdates.bind(null, repo);
   var localRepoFolder;
 
+  function cleanupTempFolder() {
+    if (options.cleanup || options.clean) {
+      require('rimraf').sync(localRepoFolder);
+      console.log('removed temp local folder');
+    }
+  }
+
   return cloneInstallAndTest(repo)
     .then(function (tmpFolder) {
       console.log('checking available updates in', tmpFolder);
@@ -219,7 +225,8 @@ function testModuleUpdate(repo, options) {
     .catch(function (err) {
       console.error('Failed to test', repo);
       console.error(err);
-    });
+    })
+    .finally(cleanupTempFolder);
 }
 
 module.exports = {

@@ -1,7 +1,7 @@
 {
   "name": "next-updater",
   "description": "Dependable and safe automatic dependency updater for Nodejs packages",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "bin": {
     "next-updater": "./index.js"

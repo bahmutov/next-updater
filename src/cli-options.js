@@ -48,6 +48,11 @@ var program = optimist
     description: 'sort repos (asc, desc, reverse)',
     default: null
   })
+  .option('clean', {
+    boolean: true,
+    description: 'delete temp folder after finished',
+    default: false
+  })
   .usage(info)
   .argv;
 
