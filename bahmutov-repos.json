@@ -13,9 +13,12 @@
   ],
   // these options should match command line options
   // command line options will overwrite these
+  // see `next-updater --help`
   "options": {
     // push to remote origin if found and committed changes
     "push": true,
+    // delete temp folder after finished
+    "clean": true,
     // skip testing these repos
     "skip": ["bahmutov/available-versions"]
   }
