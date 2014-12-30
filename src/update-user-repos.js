@@ -58,6 +58,12 @@ function getUserRepos(username) {
   return defer.promise;
 }
 
+function oldestToYoungest(repo1, repo2) {
+  var repo1Updated = new Date(repo1.updated_at);
+  var repo2Updated = new Date(repo2.updated_at);
+  return repo1Updated.getTime() - repo2Updated.getTime();
+}
+
 function updateUserRepos(options) {
   la(check.object(options), 'missing options');
   la(check.unemptyString(options.user), 'cannot find user option', options);
@@ -78,11 +84,14 @@ function updateUserRepos(options) {
     .then(function (originalRepos) {
       switch (options.sort) {
         case 'oldest': {
-          console.log('sorted repos from oldest to youngest');
+          originalRepos.sort(oldestToYoungest);
+          console.log('sorted repos from old to recently updated');
           break;
         }
         case 'youngest': {
-          console.log('sorted repos from youngest to oldest');
+          originalRepos.sort(oldestToYoungest);
+          originalRepos.reverse();
+          console.log('sorted repos from recently updated to old');
           break;
         }
       }

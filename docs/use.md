@@ -35,6 +35,13 @@ Uses Github API to fetch all repos for the given username, then updates and push
 next-updater --user <github username>
 ```
 
+Update all github repos, starting with the ones that were not updated the longest, allow
+only patch updates
+
+```sh
+next-updater --user <github username> --sort oldest --allow patch
+```
+
 ## Update using parameters from config JSON file
 
 Most flexible and repeatable way to update certain repos. Reads the settings from a JSON file.

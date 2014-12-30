@@ -1,4 +1,4 @@
-# next-updater v0.6.6
+# next-updater v0.7.0
 
 > Dependable and safe automatic dependency updater for Nodejs packages
 
@@ -23,7 +23,7 @@
 ## Command line options
 ```
 next-updater - Dependable and safe automatic dependency updater for Nodejs packages
- version: 0.6.6
+ version: 0.7.0
  author: Gleb Bahmutov <gleb.bahmutov@gmail.com>
  more info at: https://github.com/bahmutov/next-updater
 
@@ -75,6 +75,13 @@ Uses Github API to fetch all repos for the given username, then updates and push
 
 ```sh
 next-updater --user <github username>
+```
+
+Update all github repos, starting with the ones that were not updated the longest, allow
+only patch updates
+
+```sh
+next-updater --user <github username> --sort oldest --allow patch
 ```
 
 ### Update using parameters from config JSON file
