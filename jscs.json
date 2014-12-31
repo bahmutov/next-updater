@@ -11,5 +11,6 @@
     "beforeOpeningRoundBrace": true,
     "beforeOpeningCurlyBrace": true
   },
-  "requireSpacesInsideObjectBrackets": "all"
+  "requireSpacesInsideObjectBrackets": "all",
+  "disallowMultipleLineBreaks": true
 }
