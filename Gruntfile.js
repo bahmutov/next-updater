@@ -43,7 +43,8 @@ module.exports = function(grunt) {
           errorsOnly: false,
           cyclomatic: 7,
           halstead: 18,
-          maintainability: 100
+          maintainability: 100,
+          breakOnErrors: false
         }
       }
     },

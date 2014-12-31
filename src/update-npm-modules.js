@@ -6,6 +6,7 @@ var _ = require('lodash');
 // var updateMultipleRepos = require('./update-multiple-repos');
 var Registry = require('npm-registry');
 var npm = new Registry();
+var sortNames = require('./sort-names');
 
 function getUserNpmModules(username) {
   la(check.unemptyString(username), 'missing NPM username', username);
@@ -22,6 +23,8 @@ function updateNpmModules(options) {
   var username = options['npm-user'];
   la(check.unemptyString(username), 'cannot find NPM user option', options);
 
+  var sort = sortNames.bind(null, options.sort || 'listed');
+
   return getUserNpmModules(username)
     .then(function (modules) {
       la(check.array(modules), 'expected list of NPM modules', modules);
@@ -29,6 +32,7 @@ function updateNpmModules(options) {
       return modules;
     })
     .then(npmToGithuRepoNames)
+    .then(sort)
     .then(function (repoNames) {
       console.log('updating', repoNames.length, 'github repos for NPM user', username);
       if (repoNames.length) {

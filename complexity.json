@@ -1,9 +1,0 @@
-{
-  "src": ["!Gruntfile.js", "!index.js", "src/**/*.js"],
-  "options": {
-    "errorsOnly": false,
-    "cyclomatic": 7,
-    "halstead": 18,
-    "maintainability": 100
-  }
-}
