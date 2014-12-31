@@ -52,6 +52,17 @@ next-updater --user <github username> --sort oldest --allow patch
 
 Other options from the above are also applied to each repo (`--push, --tag, etc`).
 
+## Update NPM packages
+
+Uses public NPM registry info to fetch packages maintained by the give npm username,
+finds the corresponding github repo and updates the repo.
+
+Example: update first 5 NPM packages (aphabetical order), tag and publish back to NPM registry.
+
+```sh
+next-updater --npm-user <NPM username> --sort desc -N 5 --tag --publish
+```
+
 ## Update using parameters from config JSON file
 
 Most flexible and repeatable way to update certain repos. Reads the settings from a JSON file.

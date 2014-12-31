@@ -1,4 +1,4 @@
-# next-updater v0.8.0
+# next-updater v0.9.0
 
 > Dependable and safe automatic dependency updater for Nodejs packages
 
@@ -23,7 +23,7 @@
 ## Command line options
 ```
 next-updater - Dependable and safe automatic dependency updater for Nodejs packages
- version: 0.8.0
+ version: 0.9.0
  author: Gleb Bahmutov <gleb.bahmutov@gmail.com>
  more info at: https://github.com/bahmutov/next-updater
 
@@ -39,6 +39,7 @@ Options:
   --tag, -t       tag changed code with new patch version            [default: false]
   --publish       publish to NPM (if updated and has package.json)   [default: false]
   --npm-user, -n  update all NPM published repos for the given user  [default: null]
+  -N              Limit update to first N sorted repos               [default: 10000]
 ```
 
 
@@ -96,6 +97,17 @@ next-updater --user <github username> --sort oldest --allow patch
 ```
 
 Other options from the above are also applied to each repo (`--push, --tag, etc`).
+
+### Update NPM packages
+
+Uses public NPM registry info to fetch packages maintained by the give npm username,
+finds the corresponding github repo and updates the repo.
+
+Example: update first 5 NPM packages (aphabetical order), tag and publish back to NPM registry.
+
+```sh
+next-updater --npm-user <NPM username> --sort desc -N 5 --tag --publish
+```
 
 ### Update using parameters from config JSON file
 

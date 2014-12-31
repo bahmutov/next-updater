@@ -74,6 +74,11 @@ var program = optimist
     default: null,
     description: 'update all NPM published repos for the given user'
   })
+  .option('N', {
+    int: true,
+    default: 10000,
+    description: 'Limit update to first N sorted repos'
+  })
   .usage(info)
   .argv;
 

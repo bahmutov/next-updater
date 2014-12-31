@@ -1,6 +1,6 @@
 ```
 next-updater - Dependable and safe automatic dependency updater for Nodejs packages
- version: 0.8.0
+ version: 0.9.0
  author: Gleb Bahmutov <gleb.bahmutov@gmail.com>
  more info at: https://github.com/bahmutov/next-updater
 
@@ -16,4 +16,5 @@ Options:
   --tag, -t       tag changed code with new patch version            [default: false]
   --publish       publish to NPM (if updated and has package.json)   [default: false]
   --npm-user, -n  update all NPM published repos for the given user  [default: null]
+  -N              Limit update to first N sorted repos               [default: 10000]
 ```
