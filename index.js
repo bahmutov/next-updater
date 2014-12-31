@@ -24,4 +24,7 @@ if (check.unemptyString(options.repo)) {
   console.log('updating all repos for user', quote(options.user));
   require('./src/update-user-repos')(options);
 
+} else if (check.unemptyString(options['npm-user'])) {
+
+  console.log('updating repos for NPM packages authored by', quote(options['npm-user']));
 }

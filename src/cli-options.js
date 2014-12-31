@@ -68,6 +68,12 @@ var program = optimist
     default: false,
     description: 'publish to NPM (if updated and has package.json)'
   })
+  .option('npm-user', {
+    string: true,
+    alias: 'n',
+    default: null,
+    description: 'update all NPM published repos for the given user'
+  })
   .usage(info)
   .argv;
 

@@ -64,6 +64,11 @@ function oldestToYoungest(repo1, repo2) {
   return repo1Updated.getTime() - repo2Updated.getTime();
 }
 
+function filterForks(repos) {
+  la(check.array(repos), 'expected list of repos', repos);
+  return _.filter(repos, { fork: false });
+}
+
 function updateUserRepos(options) {
   la(check.object(options), 'missing options');
   la(check.unemptyString(options.user), 'cannot find user option', options);
@@ -74,9 +79,7 @@ function updateUserRepos(options) {
       console.log('user', quote(options.user), 'has', repos.length, 'github repos');
       return repos;
     })
-    .then(function (repos) {
-      return _.filter(repos, { fork: false });
-    })
+    .then(filterForks)
     .then(function (originalRepos) {
       console.log('user', quote(options.user), 'has', originalRepos.length, 'non-forked repos');
       return originalRepos;
