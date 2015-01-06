@@ -19,8 +19,12 @@ gt.test('invalid repo names', function () {
 });
 
 gt.async('valid repo name', 0, function () {
-  nextUpdater.testModuleUpdate('bahmutov/test-next-updater')
-  .then(function () {
-    gt.start();
-  });
-}, 30000);
+  var repo = 'bahmutov/test-next-updater';
+  nextUpdater.testModuleUpdate(repo)
+    .then(function () {
+      gt.start();
+    }, function (err) {
+      throw new Error('Could not test update for ' +
+        repo + '\n' + JSON.stringify(err));
+    });
+}, 60000);
