@@ -1,5 +1,7 @@
 require('lazy-ass');
 
+var gitAndNpm = require('git-and-npm');
+
 var _ = require('lodash');
 var q = require('q');
 q.longStackSupport = true;
@@ -13,15 +15,23 @@ check.mixin(function (url) {
 
 var verify = check.verify;
 var ggit = require('ggit');
-var cloneRepo = ggit.cloneRepo;
+// var cloneRepo = ggit.cloneRepo;
 var exec = require('ggit').exec;
-var path = require('path');
+// var path = require('path');
 var fs = require('fs');
-var tmpdir = require('os').tmpdir;
+// var tmpdir = require('os').tmpdir;
 var pkg = require('../package.json');
 var chdir = require('chdir-promise');
 var quote = require('quote');
 // var release = require('release-it').execute;
+
+function cleanupTempFolder(folder) {
+  verify.unemptyString(folder, 'expected folder name');
+  if (fs.existsSync(folder)) {
+    require('rimraf').sync(folder);
+    console.log('removed temp local folder', quote(folder));
+  }
+}
 
 function verifyRepo(repo) {
   verify.unemptyString(repo, 'expected github repo string');
@@ -30,6 +40,7 @@ function verifyRepo(repo) {
     'Expected github username / repo name string, have', repo);
 }
 
+/*
 function cleanupTempFolder(folder) {
   verify.unemptyString(folder, 'expected folder name');
   if (fs.existsSync(folder)) {
@@ -104,6 +115,7 @@ function cloneInstallAndTest(repo) {
       throw new Error(err);
     });
 }
+*/
 
 function testUpdates(repo, options, folder) {
   la(check.unemptyString(repo), 'missing repo name', repo);
@@ -169,7 +181,7 @@ function testModuleUpdate(repo, options) {
   var testRepo = testUpdates.bind(null, repo, options);
   var localRepoFolder;
 
-  return cloneInstallAndTest(repo)
+  return gitAndNpm.cloneAndInstall(repo)
     .then(function (tmpFolder) {
       console.log('checking available updates in', tmpFolder);
       localRepoFolder = tmpFolder;
