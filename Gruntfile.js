@@ -7,6 +7,13 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
+    filenames: {
+      options: {
+        valid: 'dashes'
+      },
+      src: sourceFiles
+    },
+
     jshint: {
       all: sourceFiles,
       options: {
@@ -97,7 +104,7 @@ module.exports = function(grunt) {
   var plugins = require('matchdep').filterDev('grunt-*');
   plugins.forEach(grunt.loadNpmTasks);
 
-  grunt.registerTask('lint', ['jsonlint', 'jshint', 'eslint', 'jscs']);
+  grunt.registerTask('lint', ['jsonlint', 'jshint', 'eslint', 'jscs', 'filenames']);
   grunt.registerTask('pre-check', ['deps-ok', 'lint', 'nice-package', 'complexity']);
   grunt.registerTask('test', ['gt']);
   grunt.registerTask('default', ['pre-check', 'test', 'help', 'readme']);
